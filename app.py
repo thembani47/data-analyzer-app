@@ -4,6 +4,11 @@ from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 import requests
 
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+local_css("style/style.css")
+
 def load_lottie_url(url):
     r = requests.get(url)
     if r.status_code != 200:
@@ -35,7 +40,7 @@ def main():
              st.image(image, caption='Tief Everything')
         with right_column:
              st.write('A streamlit app to analyse user dataset')
-             st.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum')
+             st.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse ')
 
         st.write("---")
         left_column, right_column = st.columns(2)
