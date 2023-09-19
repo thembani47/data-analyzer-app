@@ -24,7 +24,7 @@ def main():
 
     selected = option_menu(
         menu_title=None,
-        options=['Home','Visaulization','Contact'],
+        options=['Home','Data Analyser','Contact'],
         icons=['house','bar-chart','envelope'],
         default_index=0,
         orientation='horizontal'
@@ -50,7 +50,7 @@ def main():
         with right_column:
             st_lottie(lottie_learn)
 
-    if selected == 'Visaulization':
+    if selected == 'Data Analyser':
 
         st.markdown("<h1 style='text-align: center;'>Visaulization/Charts</h1>", unsafe_allow_html=True)
 
@@ -69,8 +69,11 @@ def main():
                   df = pd.read_csv(raw_data)
             else:
                  df = pd.read_excel(raw_data)
-            # Work with the dataframe
-            st.dataframe(df.head())
+        
+        st.write("---")
+        st.subheader("You can click on the *View raw data* button to have a look at the data frame")
+        if st.checkbox("View raw data"):
+            st.write(df.head(50))
 
     if selected == 'Contact':
          st.write('Contact')
