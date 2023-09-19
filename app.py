@@ -93,6 +93,12 @@ def main():
                 st.info(missingValuesSum)
 
             if missingValuesSum > 0:
+                fig = plt.figure(figsize = (15, 6))
+                plt.bar(columns, missingValues, color ='maroon',width = 0.9)
+                plt.xlabel("Column")
+                plt.ylabel("No. of missing values")
+                plt.title("Missing values by column")
+                st.pyplot(fig)
                 left_column, middle_column, right_column = st.columns(3) 
                 with left_column:
                     st.empty()
@@ -101,7 +107,6 @@ def main():
                 with right_column:
                     st.empty()
             
-
     if selected == 'Contact':
          st.write('Contact')
 
