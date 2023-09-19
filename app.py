@@ -24,7 +24,7 @@ def main():
 
     selected = option_menu(
         menu_title=None,
-        options=['Home','Dashboard','Contact'],
+        options=['Home','Visaulization','Contact'],
         icons=['house','bar-chart','envelope'],
         default_index=0,
         orientation='horizontal'
@@ -50,8 +50,19 @@ def main():
         with right_column:
             st_lottie(lottie_learn)
 
-    if selected == 'Dashboard':
-        st.write('Dashboard')
+    if selected == 'Visaulization':
+
+        st.markdown("<h1 style='text-align: center;'>Visaulization/Charts</h1>", unsafe_allow_html=True)
+
+        left_column, right_column = st.columns(2)
+        with left_column:
+            st.info("""The following are some of the charts that we have created from the raw data.
+                    Some of the text is too long and may cut off, feel free to right click on the chart
+                     and either save it or open it in a new window to see it properly.
+                    Please proceed ahead and upload your file. The file should be in a csv or excel format.   ***Enjoy***""")
+        with right_column:
+            st_lottie(lottie_chart)
+
         raw_data = st.file_uploader('Upload your file here...')
         if raw_data is not None:
             if raw_data.type == 'text/csv':
