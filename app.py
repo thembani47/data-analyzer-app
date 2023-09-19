@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 import requests
@@ -53,13 +54,13 @@ def main():
     if selected == 'Data Analyser':
 
         st.markdown("<h1 style='text-align: center;'>Visaulization/Charts</h1>", unsafe_allow_html=True)
-
+        
         left_column, right_column = st.columns(2)
         with left_column:
             st.info("""The following are some of the charts that we have created from the raw data.
                     Some of the text is too long and may cut off, feel free to right click on the chart
                      and either save it or open it in a new window to see it properly.
-                    Please proceed ahead and upload your file. The file should be in a csv or excel format.   ***Enjoy***""")
+                    Please proceed ahead and upload your file. The file should be in a csv or excel format.""")
         with right_column:
             st_lottie(lottie_chart)
 
@@ -70,10 +71,36 @@ def main():
             else:
                  df = pd.read_excel(raw_data)
         
-        st.write("---")
-        st.subheader("You can click on the *View raw data* button to have a look at the data frame")
-        if st.checkbox("View raw data"):
-            st.write(df.head(50))
+            st.write("---")
+            st.subheader("You can click on the *View raw data* button to have a look at the data frame")
+            if st.checkbox("View raw data"):
+                st.write(df.head(50))
+            
+            st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
+            columns = []
+            missingValues = []
+            for i in df:
+                if df[i].isna().sum() > 0:
+                    columns.append(i)
+                    missingValues.append(df[i].isna().sum())
+
+            missingValuesSum = sum(missingValues)
+
+            left_column, right_column = st.columns(2)
+            with left_column:
+                st.info('Number of missing values')
+            with right_column:
+                st.info(missingValuesSum)
+
+            if missingValuesSum > 0:
+                left_column, middle_column, right_column = st.columns(3) 
+                with left_column:
+                    st.empty()
+                with middle_column:
+                    st.write(df.isna().sum().sort_values(ascending=False))
+                with right_column:
+                    st.empty()
+            
 
     if selected == 'Contact':
          st.write('Contact')
