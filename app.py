@@ -3,6 +3,7 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 import requests
+import os
 
 def local_css(file_name):
     with open(file_name) as f:
@@ -51,6 +52,14 @@ def main():
 
     if selected == 'Dashboard':
         st.write('Dashboard')
+        raw_data = st.file_uploader('Upload your file here...')
+        if raw_data is not None:
+            if raw_data.type == 'text/csv':
+                  df = pd.read_csv(raw_data)
+            else:
+                 df = pd.read_excel(raw_data)
+            # Work with the dataframe
+            st.dataframe(df.head())
 
     if selected == 'Contact':
          st.write('Contact')
