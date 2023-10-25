@@ -119,6 +119,8 @@ def main():
         with right_column:
             st.empty()
 
+        
+
 
 
 # Required to let Streamlit instantiate our web app.  
