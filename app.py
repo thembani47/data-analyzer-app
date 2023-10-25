@@ -106,10 +106,18 @@ def main():
                     st.write(df.isna().sum().sort_values(ascending=False))
                 with right_column:
                     st.empty()
+
+                st.info("Summary Statistics for the numerical features")
+                st.write(df.describe().T)
             
     if selected == 'Contact':
-         st.write('Contact')
-
+        left_column, middle_column, right_column = st.columns(3)
+        with left_column:
+            st.empty()
+        with middle_column:
+                st.info('Thembani Maswanganyi aka Tief Everything')
+        with right_column:
+            st.empty()
 
 
 
