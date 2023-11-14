@@ -64,6 +64,8 @@ def main():
         with right_column:
             st_lottie(lottie_chart)
 
+        st.info('Please Enter a CSV file')
+
         raw_data = st.file_uploader('Upload your file here...')
         if raw_data is not None:
             if raw_data.type == 'text/csv':
@@ -116,6 +118,7 @@ def main():
             st.empty()
         with middle_column:
                 st.info('Thembani Maswanganyi aka Tief Everything')
+                st.write('App still under development!!!')
         with right_column:
             st.empty()
 
