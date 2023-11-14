@@ -64,7 +64,7 @@ def main():
         with right_column:
             st_lottie(lottie_chart)
 
-        st.info('Please Enter a CSV file')
+        st.info('Please Upload a CSV file')
 
         raw_data = st.file_uploader('Upload your file here...')
         if raw_data is not None:
