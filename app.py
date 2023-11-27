@@ -80,7 +80,7 @@ def main():
 
             # code here
             col_headers=sorted(df)
-            print(col_headers)
+            st.write(col_headers)
             
             st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
             columns = []
