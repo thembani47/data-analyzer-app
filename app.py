@@ -79,13 +79,7 @@ def main():
                 st.write(df.head(50))
 
             # code here
-            col_headers=sorted(df)
-            st.markdown(col_headers)
-            ez = []
-            # for j in col_headers:
-            #     if col_headers[j].dtypes == "object":
-            #         ez.append(col_headers[j])
-            # st.write(ez)
+            
             
             st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
             columns = []
