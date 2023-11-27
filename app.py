@@ -79,7 +79,8 @@ def main():
                 st.write(df.head(50))
 
             # code here
-            df.select_dtypes(include=np.number).columns.tolist()
+            col_headers=sorted(df)
+            print(col_headers)
             
             st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
             columns = []
