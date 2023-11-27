@@ -80,7 +80,7 @@ def main():
 
             # code here
             col_headers=sorted(df)
-            st.write(col_headers)
+            st.markdown(col_headers)
             ez = []
             for j in col_headers:
                 if col_headers[j].dtypes == "object":
