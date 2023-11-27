@@ -77,6 +77,10 @@ def main():
             st.subheader("You can click on the *View raw data* button to have a look at the data frame")
             if st.checkbox("View raw data"):
                 st.write(df.head(50))
+
+            # code here
+            numeric_col = df.select_dtypes(include=np.number).columns.tolist()
+            numeric_col
             
             st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
             columns = []
