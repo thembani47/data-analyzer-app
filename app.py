@@ -6,6 +6,12 @@ from streamlit_lottie import st_lottie
 import requests
 import os
 
+# Load CSV file
+@st.cache
+def load_data(file_path):
+    data = pd.read_csv(file_path)
+    return data
+
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -64,56 +70,95 @@ def main():
         with right_column:
             st_lottie(lottie_chart)
 
-        st.info('Please Upload a CSV file')
+        # Sidebar for file upload
+        st.sidebar.header("Upload CSV File")
+        uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type=["csv"])
 
-        raw_data = st.file_uploader('Upload your file here...')
-        if raw_data is not None:
-            if raw_data.type == 'text/csv':
-                  df = pd.read_csv(raw_data)
-            else:
-                 df = pd.read_excel(raw_data)
+        # Main content
+        st.title("CSV File Analysis")
+
+        if uploaded_file is not None:
+            # Load data
+            df = load_data(uploaded_file)
+
+            # Display the first few rows of the data
+            st.subheader("Data Preview")
+            st.dataframe(df.head())
+
+            # Basic statistics
+            st.subheader("Basic Statistics")
+            st.write(df.describe())
+
+            # Columns selection for analysis
+            selected_columns = st.multiselect("Select Columns for Analysis", df.columns)
+
+            if selected_columns:
+                # Scatter plot
+                st.subheader("Scatter Plot")
+                st.scatter_chart(df[selected_columns])
+
+                # Histogram
+                st.subheader("Histogram")
+                st.bar_chart(df[selected_columns])
+
+            # Correlation matrix
+            st.subheader("Correlation Matrix")
+            st.write(df[selected_columns].corr())
+
+        else:
+            st.info("Please upload a CSV file.")
+
+
+        # st.info('Please Upload a CSV file')
+
+        # raw_data = st.file_uploader('Upload your file here...')
+        # if raw_data is not None:
+        #     if raw_data.type == 'text/csv':
+        #           df = pd.read_csv(raw_data)
+        #     else:
+        #          df = pd.read_excel(raw_data)
         
-            st.write("---")
-            st.subheader("You can click on the *View raw data* button to have a look at the data frame")
-            if st.checkbox("View raw data"):
-                st.write(df.head(50))
+        #     st.write("---")
+        #     st.subheader("You can click on the *View raw data* button to have a look at the data frame")
+        #     if st.checkbox("View raw data"):
+        #         st.write(df.head(50))
 
-            # code here
+        #     # code here
             
             
-            st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
-            columns = []
-            missingValues = []
-            for i in df:
-                if df[i].isna().sum() > 0:
-                    columns.append(i)
-                    missingValues.append(df[i].isna().sum())
+        #     st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
+        #     columns = []
+        #     missingValues = []
+        #     for i in df:
+        #         if df[i].isna().sum() > 0:
+        #             columns.append(i)
+        #             missingValues.append(df[i].isna().sum())
 
-            missingValuesSum = sum(missingValues)
+        #     missingValuesSum = sum(missingValues)
 
-            left_column, right_column = st.columns(2)
-            with left_column:
-                st.info('Number of missing values')
-            with right_column:
-                st.info(missingValuesSum)
+        #     left_column, right_column = st.columns(2)
+        #     with left_column:
+        #         st.info('Number of missing values')
+        #     with right_column:
+        #         st.info(missingValuesSum)
 
-            if missingValuesSum > 0:
-                fig = plt.figure(figsize = (15, 6))
-                plt.bar(columns, missingValues, color ='maroon',width = 0.9)
-                plt.xlabel("Column")
-                plt.ylabel("No. of missing values")
-                plt.title("Missing values by column")
-                st.pyplot(fig)
-                left_column, middle_column, right_column = st.columns(3) 
-                with left_column:
-                    st.empty()
-                with middle_column:
-                    st.write(df.isna().sum().sort_values(ascending=False))
-                with right_column:
-                    st.empty()
+        #     if missingValuesSum > 0:
+        #         fig = plt.figure(figsize = (15, 6))
+        #         plt.bar(columns, missingValues, color ='maroon',width = 0.9)
+        #         plt.xlabel("Column")
+        #         plt.ylabel("No. of missing values")
+        #         plt.title("Missing values by column")
+        #         st.pyplot(fig)
+        #         left_column, middle_column, right_column = st.columns(3) 
+        #         with left_column:
+        #             st.empty()
+        #         with middle_column:
+        #             st.write(df.isna().sum().sort_values(ascending=False))
+        #         with right_column:
+        #             st.empty()
 
-                st.info("Summary Statistics for the numerical features")
-                st.write(df.describe().T)
+        #         st.info("Summary Statistics for the numerical features")
+        #         st.write(df.describe().T)
             
     if selected == 'Contact':
         left_column, middle_column, right_column = st.columns(3)
