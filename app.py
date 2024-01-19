@@ -94,8 +94,8 @@ def main():
 
             if selected_columns:
                 # Scatter plot
-                st.subheader("Scatter Plot")
-                st.scatter_chart(df[selected_columns])
+                # st.subheader("Scatter Plot")
+                # st.scatter_chart(df[selected_columns])
 
                 # Histogram
                 st.subheader("Histogram")
