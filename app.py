@@ -89,6 +89,37 @@ def main():
             st.subheader("Basic Statistics")
             st.write(df.describe())
 
+            st.subheader("Missing Values")
+            columns = []
+            missingValues = []
+            for i in df:
+                if df[i].isna().sum() > 0:
+                    columns.append(i)
+                    missingValues.append(df[i].isna().sum())
+
+            missingValuesSum = sum(missingValues)
+
+            left_column, right_column = st.columns(2)
+            with left_column:
+                st.info('Number of missing values')
+            with right_column:
+                st.info(missingValuesSum)
+
+            if missingValuesSum > 0:
+                fig = plt.figure(figsize = (15, 6))
+                plt.bar(columns, missingValues, color ='maroon',width = 0.9)
+                plt.xlabel("Column")
+                plt.ylabel("No. of missing values")
+                plt.title("Missing values by column")
+                st.pyplot(fig)
+                left_column, middle_column, right_column = st.columns(3) 
+                with left_column:
+                    st.empty()
+                with middle_column:
+                    st.write(df.isna().sum().sort_values(ascending=False))
+                with right_column:
+                    st.empty()
+
             # Columns selection for analysis
             selected_columns = st.multiselect("Select Columns for Analysis", df.columns)
 
@@ -118,40 +149,6 @@ def main():
         #     st.subheader("You can click on the *View raw data* button to have a look at the data frame")
         #     if st.checkbox("View raw data"):
         #         st.write(df.head(50))
-
-        #     # code here
-            
-            
-        #     st.markdown("<h2 style='text-align: center;'>Missing Values</h2>", unsafe_allow_html=True)
-        #     columns = []
-        #     missingValues = []
-        #     for i in df:
-        #         if df[i].isna().sum() > 0:
-        #             columns.append(i)
-        #             missingValues.append(df[i].isna().sum())
-
-        #     missingValuesSum = sum(missingValues)
-
-        #     left_column, right_column = st.columns(2)
-        #     with left_column:
-        #         st.info('Number of missing values')
-        #     with right_column:
-        #         st.info(missingValuesSum)
-
-        #     if missingValuesSum > 0:
-        #         fig = plt.figure(figsize = (15, 6))
-        #         plt.bar(columns, missingValues, color ='maroon',width = 0.9)
-        #         plt.xlabel("Column")
-        #         plt.ylabel("No. of missing values")
-        #         plt.title("Missing values by column")
-        #         st.pyplot(fig)
-        #         left_column, middle_column, right_column = st.columns(3) 
-        #         with left_column:
-        #             st.empty()
-        #         with middle_column:
-        #             st.write(df.isna().sum().sort_values(ascending=False))
-        #         with right_column:
-        #             st.empty()
 
         #         st.info("Summary Statistics for the numerical features")
         #         st.write(df.describe().T)
