@@ -120,6 +120,8 @@ def main():
                     # Correlation matrix
                     st.subheader("Correlation Matrix")
                     st.write(df[selected_columns].corr())
+                else:
+                    print("Object Type")
 
         else:
             st.info("Please upload a CSV file.")
