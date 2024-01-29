@@ -113,15 +113,12 @@ def main():
 
             if selected_columns:
                 # Histogram
-                if df[selected_columns].dtypes != "object":
-                    st.subheader("Histogram")
-                    st.bar_chart(df[selected_columns])
+                st.subheader("Histogram")
+                st.bar_chart(df[selected_columns])
 
-                    # Correlation matrix
-                    st.subheader("Correlation Matrix")
-                    st.write(df[selected_columns].corr())
-                else:
-                    print("Object Type")
+                # Correlation matrix
+                st.subheader("Correlation Matrix")
+                st.write(df[selected_columns].corr())
 
         else:
             st.info("Please upload a CSV file.")
