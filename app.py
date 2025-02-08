@@ -18,10 +18,14 @@ def local_css(file_name):
 local_css("style/style.css")
 
 def load_lottie_url(url):
-    r = requests.get(url)
-    if r.status_code != 200:
+    try:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error loading Lottie animation: {e}")
         return None
-    return r.json()
 
 lottie_coding = load_lottie_url("https://assets9.lottiefiles.com/packages/lf20_vnikrcia.json")
 lottie_learn = load_lottie_url("https://assets5.lottiefiles.com/packages/lf20_knvn3kk2.json")
