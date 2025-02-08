@@ -7,7 +7,7 @@ import requests
 import os
 
 # Load CSV file
-@st.cache
+@st.cache_data
 def load_data(file_path):
     data = pd.read_csv(file_path)
     return data
@@ -89,6 +89,16 @@ def main():
             st.subheader("Basic Statistics")
             st.write(df.describe())
 
+            # Data Cleaning
+            st.subheader("Data Cleaning")
+            missing_values_option = st.selectbox("Handle Missing Values", ["None", "Drop Rows", "Fill with Mean", "Fill with Median"])
+            if missing_values_option == "Drop Rows":
+                df = df.dropna()
+            elif missing_values_option == "Fill with Mean":
+                df = df.fillna(df.mean())
+            elif missing_values_option == "Fill with Median":
+                df = df.fillna(df.median())
+
             st.subheader("Missing Values")
             columns = []
             missingValues = []
@@ -120,27 +130,26 @@ def main():
                 st.subheader("Correlation Matrix")
                 st.write(df[selected_columns].corr())
 
+                # Line Chart
+                st.subheader("Line Chart")
+                st.line_chart(df[selected_columns])
+
+                # Scatter Plot
+                st.subheader("Scatter Plot")
+                x_axis = st.selectbox("Select X-axis", selected_columns)
+                y_axis = st.selectbox("Select Y-axis", selected_columns)
+                st.write(plt.scatter(df[x_axis], df[y_axis]))
+                st.pyplot()
+
+            # Data Export
+            st.subheader("Export Data")
+            if st.button("Download Cleaned Data"):
+                df.to_csv("cleaned_data.csv", index=False)
+                st.success("Data downloaded successfully!")
+
         else:
             st.info("Please upload a CSV file.")
 
-
-        # st.info('Please Upload a CSV file')
-
-        # raw_data = st.file_uploader('Upload your file here...')
-        # if raw_data is not None:
-        #     if raw_data.type == 'text/csv':
-        #           df = pd.read_csv(raw_data)
-        #     else:
-        #          df = pd.read_excel(raw_data)
-        
-        #     st.write("---")
-        #     st.subheader("You can click on the *View raw data* button to have a look at the data frame")
-        #     if st.checkbox("View raw data"):
-        #         st.write(df.head(50))
-
-        #         st.info("Summary Statistics for the numerical features")
-        #         st.write(df.describe().T)
-            
     if selected == 'Contact':
         left_column, middle_column, right_column = st.columns(3)
         with left_column:
@@ -151,10 +160,6 @@ def main():
         with right_column:
             st.empty()
 
-        
-
-
-
 # Required to let Streamlit instantiate our web app.  
 if __name__ == '__main__':
-	main()
+    main()
